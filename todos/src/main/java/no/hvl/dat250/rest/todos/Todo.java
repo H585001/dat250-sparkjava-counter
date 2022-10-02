@@ -1,9 +1,12 @@
 package no.hvl.dat250.rest.todos;
 
 import java.util.Objects;
+import java.util.UUID;
+
+import com.google.gson.Gson;
 
 public class Todo {
-    private final Long id;
+    private Long id;
     private final String summary;
     private final String description;
 
@@ -14,7 +17,7 @@ public class Todo {
     }
 
     public Todo(String summary, String description) {
-        this(null, summary, description);
+        this(UUID.randomUUID().getMostSignificantBits(), summary, description);
     }
 
     /**
@@ -23,6 +26,10 @@ public class Todo {
     public Long getId() {
         return id;
     }
+    
+    public void setId(Long id) {
+    	this.id = id;
+    }
 
     public String getSummary() {
         return summary;
@@ -30,6 +37,15 @@ public class Todo {
 
     public String getDescription() {
         return description;
+    }
+    
+	String toJson () {
+    	
+    	Gson gson = new Gson();
+    	    
+    	String jsonInString = gson.toJson(this);
+    	
+    	return jsonInString;
     }
 
     // Do not change equals and hashcode!
@@ -46,4 +62,9 @@ public class Todo {
     public int hashCode() {
         return Objects.hash(id, summary, description);
     }
+
+	@Override
+	public String toString() {
+		return "Todo [id=" + id + ", summary=" + summary + ", description=" + description + "]";
+	}
 }
